@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const morgan = require('morgan')
 const helmet = require('helmet')
@@ -9,9 +10,13 @@ app.use(morgan('dev'))
 app.use(helmet())
 app.use(cors())
 
+function authorize(req, res, next){
+    const authToken = req.get('Authorization').split(' ')[1]
+    console.log(authToken)
+    next()
+}
 
-
-app.get('/movie', (req, res) => {
+app.get('/movie', authorize, (req, res) => {
     let response = MOVIES
     const genre = req.query.genre
     const country = req.query.country
@@ -29,7 +34,7 @@ app.get('/movie', (req, res) => {
 
     if(avg_vote) {
         response = response.filter(response => 
-            response.avg_vote >= avg_vote)
+            response.avg_vote >= Number(avg_vote))
     }
 
 
