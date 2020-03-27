@@ -11,7 +11,6 @@ app.use(helmet())
 app.use(cors())
 
 function authorize(req, res, next){
-    debugger
     const authToken = req.get('Authorization')
     const apiToken = process.env.API_TOKEN
 
@@ -45,7 +44,6 @@ app.get('/movie', (req, res) => {
             response.avg_vote >= Number(avg_vote))
     }
 
-
     res.json(response)
 })
 
@@ -54,3 +52,5 @@ const PORT = 8000
 app.listen(PORT, () => {
   console.log(`Server listening at http://localhost:${PORT}`)
 })
+
+module.exports = app;
